@@ -19,15 +19,20 @@ class ExperimentManager():
         self.net_arch = net_arch
         self.train_episodes_interval = train_episodes_interval
         self.trained_episodes = 0
-        self.log_name = 'logs/'+self.experiment_name+'.csv'
-        self.model_name = 'models/'+self.experiment_name+'.zip'
+        self.script_dir = os.path.dirname(os.path.abspath(__file__))
+        self.log_name = os.path.join(self.script_dir, 'logs', self.experiment_name+'.csv')
+        self.model_name = os.path.join(self.script_dir, 'models', self.experiment_name+'.zip')
+
 
     def run_experiment(self, num_train_episodes):
         train_episodes = num_train_episodes
 
-        myTrainEnv = pyRDDLGym.make(domain='reservoir/domain.rddl', instance='reservoir/'+self.instance,
+        abs_domain_file_location = os.path.join(self.script_dir, 'reservoir', 'domain.rddl')
+        abs_instance_file_location = os.path.join(self.script_dir, 'reservoir', self.instance)
+
+        myTrainEnv = pyRDDLGym.make(domain=abs_domain_file_location, instance=abs_instance_file_location,
                                     base_class=SimplifiedActionRDDLEnv)
-        myEvalEnv = pyRDDLGym.make(domain='reservoir/domain.rddl', instance='reservoir/'+self.instance,
+        myEvalEnv = pyRDDLGym.make(domain=abs_domain_file_location, instance=abs_instance_file_location,
                                    base_class=SimplifiedActionRDDLEnv)
         horizon = myTrainEnv.horizon
 
