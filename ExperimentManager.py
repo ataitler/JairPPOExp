@@ -43,9 +43,12 @@ class ExperimentManager():
         if not self.run_from_scratch and os.path.exists(self.model_name):
             model = PPO.load(self.model_name, myTrainEnv)
         else:
+            # model = PPO('MultiInputPolicy', myTrainEnv, policy_kwargs=policy_kwargs,
+            #             n_steps=self.train_episodes_interval * horizon,
+            #             batch_size=self.train_episodes_interval * horizon, n_epochs=1, verbose=0)
             model = PPO('MultiInputPolicy', myTrainEnv, policy_kwargs=policy_kwargs,
                         n_steps=self.train_episodes_interval * horizon,
-                        batch_size=self.train_episodes_interval * horizon, n_epochs=1, verbose=0)
+                        batch_size=64, n_epochs=20, verbose=0)
 
         returns = []
         for episode in range(train_episodes):

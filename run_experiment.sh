@@ -28,5 +28,6 @@ do
     # runai-cmd --name test5 -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance instance1 --seed 1 --length 100 --average 5"
 #    runai-cmd --name "$test_name" -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance \"$instance\" --seed \"$i\" --length \"$legnth\" --average \"$avg\""
     # runai-cmd --name instance1_run_1 -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance instance1 --seed 2 --length 10 --average 5"
-    runai submit -i registry.bgu.ac.il/hpc/jupyter-notebook:latest -e HOME=/gpfs0/bgu-ataitler/users/ataitler --name testing-runai-submit -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance instance1 --seed 2 --length 10 --average 5"
+    # runai submit -i registry.bgu.ac.il/hpc/jupyter-notebook:latest -e HOME=/gpfs0/bgu-ataitler/users/ataitler --name testing-runai-submit -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance instance1 --seed 2 --length 10 --average 5"
+    runai submit -i registry.bgu.ac.il/hpc/jupyter-notebook:latest -e HOME=/gpfs0/bgu-ataitler/users/ataitler --name \"$test_name\" -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance \"$instance\" --seed \"$i\" --length \"$legnth\" --average \"$avg\""
 done
