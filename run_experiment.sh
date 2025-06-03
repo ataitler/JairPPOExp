@@ -21,7 +21,7 @@ avg=$4
 # Run the Python script $count times
 for ((i=1; i<=max_seed; i++))
 do
-    test_name=${instance}_run_${i}
+    test_name=${instance}-run0-${i}
     #echo "instance $instance , number of seeds: $seed , for length: $length , avg: $avg"
     # echo "test_name $test_name , instance $instance , number of seeds: $max_seed , for length: $length , avg: $avg"
 #    echo "runai-cmd --name "$test_name" -g 0.5 --cpu-limit 4 -- \"cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance $instance --seed $i --length $length --average $avg\""
