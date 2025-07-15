@@ -60,7 +60,7 @@ def concatenate_csv_columnwise(file1, file2, output_file):
 
 # Example usage:
 base_folder = os.path.dirname(os.path.abspath(__file__))
-instance = "instance10"
+instance = "instance10_20u"
 files_dir = os.path.join(base_folder, 'logs', instance)
 files = os.listdir(files_dir)
 concatenate_csv_columnwise_list(files, os.path.join('logs', instance), 'output10')

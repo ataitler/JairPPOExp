@@ -21,7 +21,7 @@ avg=$4
 # Run the Python script $count times
 for ((i=1; i<=max_seed; i++))
 do
-    test_name=${instance}-run0-${i}
+    test=${instance}-run${i}
     #echo "instance $instance , number of seeds: $seed , for length: $length , avg: $avg"
     # echo "test_name $test_name , instance $instance , number of seeds: $max_seed , for length: $length , avg: $avg"
 #    echo "runai-cmd --name "$test_name" -g 0.5 --cpu-limit 4 -- \"cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance $instance --seed $i --length $length --average $avg\""
@@ -29,5 +29,5 @@ do
 #    runai-cmd --name "$test_name" -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance \"$instance\" --seed \"$i\" --length \"$legnth\" --average \"$avg\""
     # runai-cmd --name instance1_run_1 -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance instance1 --seed 2 --length 10 --average 5"
     # runai submit -i registry.bgu.ac.il/hpc/jupyter-notebook:latest -e HOME=/gpfs0/bgu-ataitler/users/ataitler --name testing-runai-submit -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance instance1 --seed 2 --length 10 --average 5"
-    runai submit -i registry.bgu.ac.il/hpc/jupyter-notebook:latest -e HOME=/gpfs0/bgu-ataitler/users/ataitler --name \"$test_name\" -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance \"$instance\" --seed \"$i\" --length \"$legnth\" --average \"$avg\""
+    runai submit -i registry.bgu.ac.il/hpc/jupyter-notebook:latest -e HOME=/gpfs0/bgu-ataitler/users/ataitler --name "$test" -g 0.5 --cpu-limit 4 -- "cd ~/code/JairPPOExp && source activate ~/env/JairExp && python main.py --instance ${instance} --seed ${i} --length ${length" --average ${avg}"
 done
