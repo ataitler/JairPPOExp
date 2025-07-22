@@ -7,6 +7,7 @@ import torch
 import numpy as np
 import os
 import csv
+import time
 
 
 class ExperimentManager():
@@ -86,6 +87,44 @@ class ExperimentManager():
             returns.append(total_reward)
         Env.close()
         return {'mean': np.mean(returns), 'std': np.std(returns)}
+
+    def measure_results(self, is_train=True, num_episodes=1, ppo=True):
+        episodes = num_episodes
+
+        abs_domain_file_location = os.path.join(self.script_dir, 'reservoir', 'domain.rddl')
+        abs_instance_file_location = os.path.join(self.script_dir, 'reservoir', self.instance)
+
+        myEnv = pyRDDLGym.make(domain=abs_domain_file_location, instance=abs_instance_file_location,
+                                    base_class=SimplifiedActionRDDLEnv)
+
+        horizon = myEnv.horizon
+
+        policy_kwargs = {
+            "net_arch": self.net_arch,
+            "activation_fn": torch.nn.Tanh  # Use ReLU activation
+        }
+        if ppo:
+            model = PPO('MultiInputPolicy', myEnv, policy_kwargs=policy_kwargs,
+                        n_steps=self.train_episodes_interval * horizon,
+                        batch_size=self.train_episodes_interval * horizon, n_epochs=1, verbose=0)
+        else:
+            model = PPO('MultiInputPolicy', myEnv, policy_kwargs=policy_kwargs,
+                        n_steps=self.train_episodes_interval * horizon,
+                        batch_size=64, n_epochs=20, verbose=0)
+        agent = StableBaselinesAgent(model, deterministic=True)
+
+        start = time.time()
+        for episode in range(episodes):
+            if is_train:
+                model.learn(total_timesteps=self.train_episodes_interval * horizon, reset_num_timesteps=False)
+            else:
+                r = self.evaluate(agent, myEnv, episodes=self.average, seed=0, verbose=0)
+        end = time.time()
+        actual_time = (end-start)/episodes
+        print(actual_time)
+        myEnv.close()
+
+
 
     def log_results(self, returns):
         # Only write header if file doesn't exist
