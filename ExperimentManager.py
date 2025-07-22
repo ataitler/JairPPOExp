@@ -118,7 +118,7 @@ class ExperimentManager():
             if is_train:
                 model.learn(total_timesteps=self.train_episodes_interval * horizon, reset_num_timesteps=False)
             else:
-                r = self.evaluate(agent, myEnv, episodes=self.average, seed=0, verbose=0)
+                r = self.evaluate(agent, myEnv, episodes=1, seed=0, verbose=0)
         end = time.time()
         actual_time = (end-start)/episodes
         print(actual_time)
